@@ -5,7 +5,18 @@
   "main": "index.js",
   "scripts": {
     "seed": "ts-node seed.ts",
-    "test-all": "vitest --run"
+    "test-all": "vitest --run",
+    "test1": "vitest --run /problems/p1.test.ts",
+    "test2": "vitest --run /problems/p2.test.ts",
+    "test3": "vitest --run /problems/p3.test.ts",
+    "test4": "vitest --run /problems/p4.test.ts",
+    "test5": "vitest --run /problems/p5.test.ts",
+    "test6": "vitest --run /problems/p6.test.ts",
+    "test7": "vitest --run /problems/p7.test.ts",
+    "test8": "vitest --run /problems/p8.test.ts",
+    "test9": "vitest --run /problems/p9.test.ts",
+    "test10": "vitest --run /problems/p10.test.ts",
+    "test11": "vitest --run /problems/p11.test.ts"
   },
   "keywords": [],
   "author": "",
