@@ -6,6 +6,10 @@ export const getAllPG13Movies = () => {
     where: {
       parentalRating: 'PG-13',
     },
+    select: {
+      releaseYear: true,
+      parentalRating: true,
+    },
     orderBy: {
       releaseYear: 'desc',
     },
