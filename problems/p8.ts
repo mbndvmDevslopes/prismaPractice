@@ -3,7 +3,7 @@ import { prisma } from './prisma';
 
 // Always tell truths, don't you ever lie, to solve this problem, just try a `groupBy`
 
-// find the critic with the lowest average score
+
 export const findTheGrumpiestCriticId = async () => {
   const usersAndRatings = await prisma.user.findMany({
     include: {
