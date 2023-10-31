@@ -1,4 +1,4 @@
-import { prisma } from "./prisma";
+import { prisma } from './prisma';
 
 // get All Pg-13 movies, ordered by release year descending
 export const getAllPG13Movies = () => {
@@ -14,6 +14,5 @@ export const getAllPG13Movies = () => {
       releaseYear: 'desc',
     },
   });
-  console.log(pg13Movies);
   return pg13Movies;
 };
