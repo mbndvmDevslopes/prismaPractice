@@ -1,32 +1,17 @@
-import { StarRating, User } from '@prisma/client';
-import { prisma } from './prisma';
+import { StarRating, User } from "@prisma/client";
+import { prisma } from "./prisma";
 
 // get average score for a user
-interface UserWithRatings extends User {
-  starRatings: StarRating[] | null;
-}
+
 
 export const getAverageScoreForUser = async (userId: number) => {
-  const userAndRatings: UserWithRatings | null = await prisma.user.findUnique({
-    where: {
-      id: userId,
+  const averageScore = await prisma.starRating.aggregate({
+    _avg: {
+      score: true,
     },
-    include: {
-      starRatings: true,
+    where: {
+      userId
     },
   });
-
-  if (userAndRatings) {
-    const totalScore = userAndRatings.starRatings?.reduce(
-      (sum, rating) => sum + rating.score,
-      0
-    );
-    if (totalScore && userAndRatings.starRatings) {
-      const avgScore = totalScore / userAndRatings.starRatings.length;
-
-      return avgScore;
-    }
-  }
-
-  return 0;
+  return averageScore._avg.score;
 };
