@@ -1,52 +1,31 @@
-import { groupBy, map, reduce, sumBy } from "remeda";
-import { prisma } from "./prisma";
+import { groupBy, map, reduce, sumBy } from 'remeda';
+import { prisma } from './prisma';
 
 // hint:find all stars with the movies "included" on, then good ol' javascript should finish the job
 // This one should require more javascript work than the previous ones
 
 export const getAllMoviesWithAverageScoreOverN = async (n: number) => {
-  const score = await prisma.starRating.groupBy({
-   by :['movieId'],
-   orderBy: {
+  const starRatingGroups = await prisma.starRating.groupBy({
+    by: ['movieId'],
 
-     _avg: {
-      score:'desc'
-     }
-   },
-   take:n,
-   skip:1,
-   
-    
-  
-    
-  });
+    _avg: {
+      score: true,
+    },
 
-  console.log('movies',score);
-};
-/* const moviesWithAverageScore = await prisma.movie.findMany({
-    include: {
-      starRatings: {
-        select: {
-          score: true,
+    having: {
+      score: {
+        _avg: {
+          gte: n,
         },
       },
     },
   });
 
-  const filteredMovies = moviesWithAverageScore
-    .filter((movie) => {
-      const totalScores = movie.starRatings.reduce(
-        (sum, rating) => sum + rating.score,
-        0
-      );
-      const averageScore = totalScores / movie.starRatings.length;
-      return averageScore > n;
-    })
-    .map((movie) => ({
-      id: movie.id,
-      title: movie.title,
-      parentalRating: movie.parentalRating,
-      releaseYear: movie.releaseYear,
-    }));
-
-  return filteredMovies; */
+  return prisma.movie.findMany({
+    where: {
+      id: {
+        in: starRatingGroups.map((group) => group.movieId),
+      },
+    },
+  });
+};
